@@ -12,8 +12,13 @@ class Graph
             adjacencyList = vector<vector<pair<int,long long>>>(nodes+1);
         }
         virtual void addEdge(int u, int v, long long weight) = 0;
+        virtual bool isCyclic() = 0;
         vector<int> breadthFirstTraversal(int source);
         vector<int> depthFirstTraversal(int source);
+        int getNumberOfNodes()
+        {
+            return numOfNodes;
+        }
     protected:
         //number of nodes in the graph
         int numOfNodes;
