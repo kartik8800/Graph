@@ -64,7 +64,7 @@ void Graph::dfsHelper(int source,vector<int> &nodesDiscovered, vector<bool> &vis
     for(pair<int,long long> neighbours : adjacencyList[source])
        {
            int neighbour = neighbours.first;
-           if(!visited[neighbour])
+           if(!vis[neighbour])
            {
                dfsHelper(neighbour, nodesDiscovered, vis);
            }
