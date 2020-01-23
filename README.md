@@ -9,3 +9,4 @@ Currently added features:
    3. Add a weighted edge between two vertices u,v.
    4. Traverse the Graph using BFS or DFS.
    5. Check if the Graph is cyclic. 
+   6. Get the strongly connected components of a Directed Graph.
