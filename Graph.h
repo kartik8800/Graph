@@ -28,7 +28,6 @@ class Graph
         //node adjList[i].first.
         //adjList[i].second represents weight of the edge.
         vector<vector<pair<int,long long>>> adjacencyList;
-    private:
         void dfsHelper(int source, vector<int> &nodesDiscovered, vector<bool> &vis);
 
 };
