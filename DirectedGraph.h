@@ -18,8 +18,81 @@ class DirectedGraph : public Graph
         {
             adjacencyList[u].push_back({v, w});
         }
+        vector<vector<int>> getStronglyConnectedComponents();
+    
+    private:
+        
+         vector<int> getFinishTimes();
+         void finishTimeHelper(int src, vector<int>& finishTimes, vector<bool>& visited);
+         DirectedGraph getReversal();
 
 };
+
+vector<vector<int>> DirectedGraph :: getStronglyConnectedComponents()
+{
+            vector<vector<int>> stronglyConnectedComponents;
+            vector<int> finishTimes = this -> getFinishTimes();
+            DirectedGraph reversedGraph = this -> getReversal();
+
+            vector<bool> visited(this -> getNumberOfNodes() + 1, 0);
+
+            for(int i = finishTimes.size() - 1; i >= 0; i--)
+            {
+                vector<int> SCC;
+                if(!visited[finishTimes[i]])
+                {
+                  reversedGraph.dfsHelper(finishTimes[i], SCC, visited);
+                  stronglyConnectedComponents.push_back(SCC);
+                }
+            }
+
+            return stronglyConnectedComponents;
+}
+
+vector<int> DirectedGraph :: getFinishTimes()
+{
+             vector<int> finishTimes;
+             vector<bool> visited(this -> getNumberOfNodes() + 1, 0);
+
+             for(int src = 1; src <= this -> getNumberOfNodes(); src++)
+             {
+                 if(!visited[src])
+                 {
+                     finishTimeHelper(src, finishTimes, visited);
+                 }
+             }
+
+             return finishTimes;
+}
+
+
+void DirectedGraph :: finishTimeHelper(int src, vector<int>& finishTimes, vector<bool>& visited)
+{
+             visited[src] = 1;
+
+             for(auto neighbour : this -> adjacencyList[src])
+             {
+                 if(!visited[neighbour.first])
+                    finishTimeHelper(neighbour.first, finishTimes, visited);
+             }
+
+             finishTimes.push_back(src);
+}
+
+DirectedGraph DirectedGraph :: getReversal()
+{
+             DirectedGraph gT(this -> getNumberOfNodes());
+
+             for(int node = 1; node <= this -> getNumberOfNodes(); node++)
+             {
+                 for(auto edge : adjacencyList[node])
+                 {
+                     gT.addEdge(edge.first, node);
+                 }
+             }
+
+             return gT;
+}
 
 bool DirectedGraph::isCyclic()
 {
